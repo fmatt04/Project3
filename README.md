@@ -1,2 +1,4 @@
-# Project3
-Third Project in Intro to Creative Code
+# 11-16-23-demo
+Demo for in-class lecture on Github + VS Code + p5.js
++
++My first update!
