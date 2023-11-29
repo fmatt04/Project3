@@ -24,6 +24,8 @@ class player {
     this.speedX = 0;
     this.speedY = 0;
     this.grounded = false;
+    this.playerWidth = 40;
+    this.playerHeight = 60;
   }
 
   move() {
@@ -63,22 +65,35 @@ class player {
       }
     }
     this.posX +=  this.speedX;
-    if (this.speedX > 20) {
-      this.speedX = 20;
+    if (this.speedX > 10) {
+      this.speedX = 10;
+    }
+    if (this.speedX < -10) {
+      this.speedX = -10;
+    }
+    if (this.posX >= width - this.playerWidth/2) {
+      console.log("right");
+      this.posX = width - this.playerWidth/2;
+      this.speedX = 0;
+    }
+    if (this.posX <= this.playerWidth/2) {
+      console.log("left");
+      this.posX = this.playerWidth/2;
+      this.speedX = 0;
     }
     this.gravity();
 
     //draw character
     fill(100, 30, 200);
     stroke(0);
-    rect(this.posX, this.posY, 15, 30);
+    rect(this.posX, this.posY, this.playerWidth, this.playerHeight);
   }
 
   gravity() {
     this.posY += this.speedY;
-    if (this.posY >= 485) {
+    if (this.posY >= height - this.playerHeight/2) {
       this.grounded = true;
-      this.posY = 485;
+      this.posY = height - this.playerHeight/2;
       this.speedY = 0;
     }
     if (!this.grounded) {
@@ -86,4 +101,3 @@ class player {
     }
   }
 }
-
