@@ -63,13 +63,9 @@ class player {
         this.speedX = 0;
       }
     }
-    if (keyIsDown(UP_ARROW) || keyIsDown(32)) {
-      if (this.grounded) {
-        this.speedY = -17;
-        this.grounded = false;
-      }
-    }
+
     this.posX +=  this.speedX;
+
     if (this.speedX > 10) {
       this.speedX = 10;
     }
@@ -86,26 +82,18 @@ class player {
       this.posX = this.playerWidth/2;
       this.speedX = 0;
     }
-    
-    //block 1 
-    this.blockOverlap(block1);
-    //console.log(this.posY + this.playerHeight/2);
-    /*if (block1.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)
-    && block1.inBlockY(this.posY + this.playerHeight/2))
-    {
-      console.log("overlap");
-      if (block1.inBlockY(1+this.posY + this.playerHeight/2)) {
-        this.speedY = 0;
-        this.posY = this.posYPast;
-        this.grounded = true;
-      }
-      else if (block1.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)) {
-        this.speedX = 0; 
-        this.posX = this.posXPast;
-      }
-    }*/
 
+    this.checkOverlap();
     this.gravity();
+
+    if (keyIsDown(UP_ARROW) || keyIsDown(32)) {
+      if (this.grounded) {
+        this.speedY = -17;
+        this.posY += this.speedY;
+        this.grounded = false;
+
+      }
+    }
 
     //draw character
     fill(100, 30, 200);
@@ -114,6 +102,11 @@ class player {
     this.posXPast = this.posX;
     this.posYPast = this.posY;
   }
+
+checkOverlap() {
+  //block 1 
+  this.blockOverlap(block1);
+}
 
   blockOverlap(block) {
     if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)
@@ -128,7 +121,11 @@ class player {
       else if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)) {
         this.speedX = 0; 
         this.posX = this.posXPast;
+        this.grounded = false;
       }
+    }
+    else {
+      this.grounded = false;
     }
   }
 
