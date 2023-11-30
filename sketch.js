@@ -2,6 +2,7 @@ let player1;
 let direction;
 let jump;
 let block1;
+let block2;
 let framesPerSecond = 60;
 
 function setup() {
@@ -11,6 +12,7 @@ function setup() {
   textAlign(CENTER);
   player1 = new player();
   block1 = new block(100, 275, 100, 50);
+  block2 = new block(600, 275, 100, 50);
 }
 
 ////////draw
@@ -19,6 +21,7 @@ function draw() {
   //function calls
   player1.move();
   block1.drawBox();
+  block2.drawBox();
 }
 
 class player {
@@ -87,6 +90,7 @@ class player {
     this.gravity();
 
     if (keyIsDown(UP_ARROW) || keyIsDown(32)) {
+      console.log(this.grounded);
       if (this.grounded) {
         this.speedY = -17;
         this.posY += this.speedY;
@@ -104,18 +108,21 @@ class player {
   }
 
 checkOverlap() {
+  this.grounded = false;
+  
   //block 1 
   this.blockOverlap(block1);
+  //block 2
+  this.blockOverlap(block2);
 }
 
   blockOverlap(block) {
     if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)
     && block.inBlockY(this.posY + this.playerHeight/2))
     {
-      console.log("overlap");
       if (block.inBlockY(1+this.posY + this.playerHeight/2)) {
         this.speedY = 0;
-        this.posY = this.posYPast;
+        this.posY = block.boxYPos - block.boxHeight/2 - this.playerHeight/2;
         this.grounded = true;
       }
       else if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)) {
@@ -123,9 +130,6 @@ checkOverlap() {
         this.posX = this.posXPast;
         this.grounded = false;
       }
-    }
-    else {
-      this.grounded = false;
     }
   }
 
