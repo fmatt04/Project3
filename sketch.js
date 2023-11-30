@@ -13,6 +13,7 @@ function setup() {
   player1 = new player();
   block1 = new block(100, 275, 100, 50);
   block2 = new block(600, 275, 100, 50);
+  block3 = new block(350, 150, 100, 50);
 }
 
 ////////draw
@@ -22,6 +23,7 @@ function draw() {
   player1.move();
   block1.drawBox();
   block2.drawBox();
+  block3.drawBox();
 }
 
 class player {
@@ -114,6 +116,8 @@ checkOverlap() {
   this.blockOverlap(block1);
   //block 2
   this.blockOverlap(block2);
+  //block 3
+  this.blockOverlap(block3);
 }
 
   blockOverlap(block) {
