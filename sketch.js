@@ -15,7 +15,7 @@ let block11;
 let block12;
 let block13;
 let block14;
-let framesPerSecond = 60;
+let framesPerSecond;
 let canvas;
 let cordArray;
 let coin1;
@@ -23,10 +23,17 @@ let coin2;
 let coin3;
 let coinCount;
 let rightOrder;
-let score = 0;
-let timer = 0;
+let score;
+let timer;
+let subTimer;
+let gameState;
 
 function setup() {
+  score = 0;
+  timer = 60;
+  subTimer = 0;
+  framesPerSecond = 60;
+  gameState = "start screen";
   frameRate(framesPerSecond);
   canvas = createCanvas(1400, 800);
   rectMode(CENTER);
@@ -57,18 +64,26 @@ function setup() {
   coinCount = 1;
   rightOrder = true;
 
-  let nums = threeRandNums(0, cordArray.length);
-  console.log(nums);
-  coin1 = new coin(cordArray[nums[0]].cordX, cordArray[nums[0]].cordY, 1);
-  coin2 = new coin(cordArray[nums[1]].cordX, cordArray[nums[1]].cordY, 2);
-  coin3 = new coin(cordArray[nums[2]].cordX, cordArray[nums[2]].cordY, 3);
+  let nums = threeRandNums(0, cordArray.length-1);
+  console.log(nums[0]);
+  console.log(nums[1]);
+  console.log(nums[2]);
+  coin1 = new coin(cordArray[int(nums[0])].cordX, cordArray[int(nums[0])].cordY, 1);
+  coin2 = new coin(cordArray[int(nums[1])].cordX, cordArray[int(nums[1])].cordY, 2);
+  coin3 = new coin(cordArray[int(nums[2])].cordX, cordArray[int(nums[2])].cordY, 3);
 }
 
 ////////draw
 function draw() {
-  background(220);
   //function calls
+  gameDraw();
+}
+
+function gameDraw() {
+  background(220);
+  //update player position and check platform collissions
   player1.move();
+  //draw boxes
   block1.drawBox();
   block2.drawBox();
   block3.drawBox();
@@ -83,11 +98,28 @@ function draw() {
   block12.drawBox();
   block13.drawBox();
   block14.drawBox();
+  //draw coins and check coin collissions
   coin1.drawCoin();
   coin2.drawCoin();
   coin3.drawCoin();
+  //Score and  Timer
+  timerCount()
   textSize(30);
-  text("Score:" + score, 1200, 50);
+  fill(0);
+  text("Score: " + score, 1300, 50);
+  text("Time Left: " + timer, 100, 50);
+}
+
+function timerCount() {
+  subTimer++;
+  if (subTimer == 60) {
+    subTimer = 0;
+    timer--;
+  }
+
+  if (timer == -1) {
+    gameState = "end screen";
+  }
 }
 
 function threeRandNums(bot, top) {
@@ -140,12 +172,15 @@ class coin {
         coin2.collected = false;
         coin3.collected = false;
         let nums = threeRandNums(0, cordArray.length);
-        coin1.xPos = cordArray[nums[0]].cordX;
-        coin1.yPos = cordArray[nums[0]].cordY;
-        coin2.xPos = cordArray[nums[1]].cordX;
-        coin2.yPos = cordArray[nums[1]].cordY;
-        coin3.xPos = cordArray[nums[2]].cordX;
-        coin3.yPos = cordArray[nums[2]].cordY;
+        console.log(nums[0]);
+        console.log(nums[1]);
+        console.log(nums[2]);
+        coin1.xPos = cordArray[int(nums[0])].cordX;
+        coin1.yPos = cordArray[int(nums[0])].cordY;
+        coin2.xPos = cordArray[int(nums[1])].cordX;
+        coin2.yPos = cordArray[int(nums[1])].cordY;
+        coin3.xPos = cordArray[int(nums[2])].cordX;
+        coin3.yPos = cordArray[int(nums[2])].cordY;
       }
     }
 
