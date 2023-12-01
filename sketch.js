@@ -3,17 +3,41 @@ let direction;
 let jump;
 let block1;
 let block2;
+let block3;
+let block4;
+let block5;
+let block6;
+let block7;
+let block8;
+let block9;
+let block10;
+let block11;
+let block12;
+let block13;
+let block14;
 let framesPerSecond = 60;
+let canvas;
 
 function setup() {
   frameRate(framesPerSecond);
-  createCanvas(700, 300);
+  canvas = createCanvas(1400, 800);
   rectMode(CENTER);
   textAlign(CENTER);
   player1 = new player();
-  block1 = new block(100, 275, 100, 50);
-  block2 = new block(600, 275, 100, 50);
-  block3 = new block(350, 150, 100, 50);
+  block1 = new block(200, 775, 400, 50);
+  block2 = new block(1200, 775, 400, 50);
+  block3 = new block(700, 650, 150, 50);
+  block4 = new block(700, 475, 400, 50);
+  block5 = new block(300, 400, 200, 50);
+  block6 = new block(1100, 400, 200, 50);
+  block7 = new block(700, 300, 150, 50);
+  block8 = new block(1350, 600, 100, 50);
+  block9 = new block(50, 600, 100, 50);
+  block10 = new block(700, 150, 350, 50);
+  block11 = new block(1350, 450, 100, 50);
+  block12 = new block(50, 450, 100, 50);
+  block13 = new block(1100, 225, 100, 50);
+  block14 = new block(300, 225, 100, 50);
 }
 
 ////////draw
@@ -24,162 +48,42 @@ function draw() {
   block1.drawBox();
   block2.drawBox();
   block3.drawBox();
+  block4.drawBox();
+  block5.drawBox();
+  block6.drawBox();
+  block7.drawBox();
+  block8.drawBox();
+  block9.drawBox();
+  block10.drawBox();
+  block11.drawBox();
+  block12.drawBox();
+  block13.drawBox();
+  block14.drawBox();
 }
 
-class player {
+class coin {
+  constructor(x, y, num) {
+    this.count = num;
+    this.xPos = x;
+    this.yPos = y;
+    this.width = 20;
+    this.height = 20;
 
-  constructor() {
-    this.posX = 200;
-    this.posXPast = 200;
-    this.posY = 200;
-    this.posYPast = 200;
-    this.speedX = 0;
-    this.speedY = 0;
-    this.grounded = false;
-    this.playerWidth = 40;
-    this.playerHeight = 60;
   }
 
-  move() {
-    if (keyIsDown(LEFT_ARROW)) {
-      if (this.speedX < 0) {
-        this.speedX -= 0.5;
-      }
-      else {
-        this.speedX -= 1;
-      }
-    }
-    else if (keyIsDown(RIGHT_ARROW)) {
-      if (this.speedX > 0) {
-        this.speedX += 0.5;
-      }
-      else {
-        this.speedX += 1
+  overlap(x, y) {
+    if ((player1.xPos - player1.width/2 >= this.xPos - this.width/2
+    && player1.xPos - player1.width/2 <= this.xPos + this.width/2)
+    || (player1.xPos + player1.width/2 >= this.xPos - this.width/2
+    && player1.xPos + player1.width/2 <= this.xPos + this.width/2)) {
+      if ((player1.yPos - player1.height/2 >= this.yPos - this.height/2
+      && player1.yPos - player1.height/2 <= this.yPos + this.height/2)
+      || (player1.yPos + player1.height/2 >= this.yPos - this.height/2
+      && player1.yPos + player1.height/2 <= this.yPos + this.height/2)) {
+        console.log("Coin");
+        return count;
       }
     }
-    else {
-      if (this.speedX >=  1) {
-        this.speedX -= 1;
-      }
-      else if (this.speedX <= -1) {
-        this.speedX += 1;
-      }
-      else {
-        this.speedX = 0;
-      }
-    }
-
-    this.posX +=  this.speedX;
-
-    if (this.speedX > 10) {
-      this.speedX = 10;
-    }
-    if (this.speedX < -10) {
-      this.speedX = -10;
-    }
-    if (this.posX >= width - this.playerWidth/2) {
-      console.log("right");
-      this.posX = width - this.playerWidth/2;
-      this.speedX = 0;
-    }
-    if (this.posX <= this.playerWidth/2) {
-      console.log("left");
-      this.posX = this.playerWidth/2;
-      this.speedX = 0;
-    }
-
-    this.checkOverlap();
-    this.gravity();
-
-    if (keyIsDown(UP_ARROW) || keyIsDown(32)) {
-      console.log(this.grounded);
-      if (this.grounded) {
-        this.speedY = -17;
-        this.posY += this.speedY;
-        this.grounded = false;
-
-      }
-    }
-
-    //draw character
-    fill(100, 30, 200);
-    stroke(0);
-    rect(this.posX, this.posY, this.playerWidth, this.playerHeight);
-    this.posXPast = this.posX;
-    this.posYPast = this.posY;
-  }
-
-checkOverlap() {
-  this.grounded = false;
-  
-  //block 1 
-  this.blockOverlap(block1);
-  //block 2
-  this.blockOverlap(block2);
-  //block 3
-  this.blockOverlap(block3);
-}
-
-  blockOverlap(block) {
-    if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)
-    && block.inBlockY(this.posY + this.playerHeight/2))
-    {
-      if (block.inBlockY(1+this.posY + this.playerHeight/2)) {
-        this.speedY = 0;
-        this.posY = block.boxYPos - block.boxHeight/2 - this.playerHeight/2;
-        this.grounded = true;
-      }
-      else if (block.inBlockX(this.posX - this.playerWidth/2, this.posX + this.playerWidth/2)) {
-        this.speedX = 0; 
-        this.posX = this.posXPast;
-        this.grounded = false;
-      }
-    }
-  }
-
-  gravity() {
-    this.posY += this.speedY;
-    if (this.posY >= height - this.playerHeight/2) {
-      this.grounded = true;
-      this.posY = height - this.playerHeight/2;
-      this.speedY = 0;
-    }
-    if (!this.grounded) {
-      this.speedY += 1;
-    }
-  }
-}
-
-class block {
-  constructor(bXPos, bYPos, bWidth, bHeight) {
-    this.boxXPos = bXPos;
-    this.boxYPos = bYPos;
-    this.boxWidth = bWidth;
-    this.boxHeight = bHeight;
-  }
-
-  drawBox () {
-    rect(this.boxXPos, this.boxYPos, this.boxWidth, this.boxHeight);
-  }
-
-  //collission detector for the box's X value
-  inBlockX (cord1, cord2) {
-    if ((cord1 >= this.boxXPos - this.boxWidth/2 
-    && cord1 <= this.boxXPos + this.boxWidth/2 )
-    || (cord2 >= this.boxXPos - this.boxWidth/2 
-    && cord2 <= this.boxXPos + this.boxWidth/2 )
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  //collission detector for the box's Y value
-  inBlockY (cord) {
-    if (cord <= this.boxYPos + this.boxHeight/2
-    && cord >= this.boxYPos - this.boxHeight/2) {
-      return true;
-    }
-    return false;
+    return 0;
   }
 }
