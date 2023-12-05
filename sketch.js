@@ -27,10 +27,19 @@ let score;
 let timer;
 let subTimer;
 let gameState;
+let startScreenImg;
+let endScreenImg;
+let controlsMenuImg;
+let font1;
 
 function setup() {
+  startScreenImg = loadImage('Assets/Start Screen.png');
+  endScreenImg = loadImage('Assets/End Screen.png');
+  controlsMenuImg = loadImage('Assets/Controls Menu.png');
+  font1 = loadFont('Text/Angkor-Regular.ttf');
+  textFont(font1);
   score = 0;
-  timer = 60;
+  timer = 30; //////////////////timer
   subTimer = 0;
   framesPerSecond = 60;
   gameState = "start screen";
@@ -76,7 +85,123 @@ function setup() {
 ////////draw
 function draw() {
   //function calls
-  gameDraw();
+  if (gameState == "start screen") {
+    startMenu();
+  }
+  else if (gameState == "play game") {
+    gameDraw();
+  }
+  else if (gameState == "end screen") {
+    endDraw();
+  }
+  else if (gameState == "controls menu") {
+    controlsDraw();
+  }
+}
+
+function controlsDraw() {
+  image(controlsMenuImg, 0, 0, width, height);
+  textSize(40);
+  stroke(0);
+  strokeWeight(2);
+  if (mouseX < 450 && mouseX > 140 
+    && mouseY < 660 && mouseY > 625) {
+      fill(252, 140, 3);
+    }
+    else {
+      fill(255, 238, 127);
+    }
+  text("back to menu", 300, 660);
+
+}
+
+function startMenu() {
+  image(startScreenImg, 0, 0, width, height);
+  //background(255);
+  textSize(60);
+  
+  stroke(0);
+  strokeWeight(2);
+  if (mouseX < width/2 + 180 && mouseX > width/2 - 180 
+    && mouseY < height/2 + 10 && mouseY > height/2 - 50) {
+      fill(252, 140, 3);
+    }
+    else {
+      fill(255, 238, 127);
+    }
+  text("play game", width/2, height/2);
+  if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
+    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
+      fill(252, 140, 3);
+    }
+    else {
+      fill(255, 238, 127);
+    }
+  textSize(40);
+  text("how to play", width/2, height/2 + 100);
+}
+
+function endDraw() {
+  image(endScreenImg, 0, 0, width, height);
+  //background(255);
+  textSize(45);
+  fill(255, 238, 127);
+  stroke(0);
+  strokeWeight(2);
+  text("Your Score is " + score + "!", width/2, height/2);
+
+  if (mouseX < width/2 + 250 && mouseX > width/2 - 250
+    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
+      fill(252, 140, 3);
+    }
+    else {
+      fill(255, 238, 127);
+    }
+  text("back to start screen", width/2, height/2 + 100);
+
+  if (mouseX < 380 && mouseX > 115 
+    && mouseY < 670 && mouseY > 640) {
+      fill(252, 140, 3);
+    }
+    else {
+      fill(255, 238, 127);
+    }
+  text("save score", 250, 670);
+  
+}
+
+function mouseClicked() {
+  if (gameState == "start screen") {
+    if (mouseX < width/2 + 70 && mouseX > width/2 - 70 
+    && mouseY < height/2 + 30 && mouseY > height/2 - 30) {
+      gameState = "play game";
+    }
+    if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
+    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
+      gameState = "controls menu";
+    }
+  }
+  if (gameState == "play game") {
+    
+  }
+  if (gameState == "end screen") {
+    if (mouseX < width/2 + 250 && mouseX > width/2 - 250
+    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
+      setup();
+
+    }
+    if (mouseX < 380 && mouseX > 115 
+      && mouseY < 670 && mouseY > 640) {
+        saveCanvas("SpeedBaker");
+    }
+
+  }
+  if (gameState == "controls menu") {
+    if (mouseX < 450 && mouseX > 140 
+      && mouseY < 660 && mouseY > 625) {
+        gameState = "start screen";
+      }
+  }
 }
 
 function gameDraw() {
@@ -117,7 +242,7 @@ function timerCount() {
     timer--;
   }
 
-  if (timer == -1) {
+  if (timer == 0) {
     gameState = "end screen";
   }
 }
@@ -162,9 +287,11 @@ class coin {
       if (coinCount == 4) {
         if (rightOrder) {
           score += 3
+          timer+=2;
         }
         else {
-          score += 1
+          score += 1;
+          timer+=1;
         }
         coinCount = 1;
         rightOrder = true;
@@ -187,7 +314,9 @@ class coin {
   }
 
   overlap() {
-    if (this.xPos > player1.posX - player1.playerWidth/2 && this.xPos < player1.posX + player1.playerWidth/2) {
+    if (this.xPos - this.width > player1.posX - player1.playerWidth/2 && this.xPos - this.width < player1.posX + player1.playerWidth/2 
+    || this.xPos + this.width > player1.posX - player1.playerWidth/2 && this.xPos + this.width < player1.posX + player1.playerWidth/2
+    || this.xPos > player1.posX - player1.playerWidth/2 && this.xPos < player1.posX + player1.playerWidth/2) {
       if (this.yPos > player1.posY - player1.playerHeight && this.yPos < player1.posY + player1.playerHeight) {
         console.log("Coin");
         this.collected = true;

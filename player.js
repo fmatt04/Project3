@@ -1,10 +1,10 @@
 class player {
 
     constructor() {
-      this.posX = 200;
-      this.posXPast = 200;
-      this.posY = 200;
-      this.posYPast = 200;
+      this.posX = width/2;
+      this.posXPast = this.posX;
+      this.posY = height - 31;
+      this.posYPast = this.posY;
       this.speedX = 0;
       this.speedY = 0;
       this.grounded = false;
