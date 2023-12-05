@@ -1,40 +1,40 @@
 class player {
 
     constructor() {
-      this.posX = width/2;
+      this.posX = width*0.5;
       this.posXPast = this.posX;
-      this.posY = height - 31;
+      this.posY = height*0.971;
       this.posYPast = this.posY;
       this.speedX = 0;
       this.speedY = 0;
       this.grounded = false;
-      this.playerWidth = 40;
-      this.playerHeight = 60;
+      this.playerWidth = width*0.029;
+      this.playerHeight = height*0.075;
     }
   
     move() {
       if (keyIsDown(LEFT_ARROW)) {
         if (this.speedX < 0) {
-          this.speedX -= 0.5;
+          this.speedX -= this.width * 0.000357;
         }
         else {
-          this.speedX -= 1;
+          this.speedX -= this.width*0.000714;
         }
       }
       else if (keyIsDown(RIGHT_ARROW)) {
         if (this.speedX > 0) {
-          this.speedX += 0.5;
+          this.speedX += this.width * 0.000357;
         }
         else {
-          this.speedX += 1
+          this.speedX += this.width*0.000714
         }
       }
       else {
-        if (this.speedX >=  1) {
-          this.speedX -= 1;
+        if (this.speedX >=  this.width*0.000714) {
+          this.speedX -= this.width*0.000714;
         }
-        else if (this.speedX <= -1) {
-          this.speedX += 1;
+        else if (this.speedX <= -this.width*0.000714) {
+          this.speedX += this.width*0.000714;
         }
         else {
           this.speedX = 0;
@@ -66,7 +66,7 @@ class player {
       if (keyIsDown(UP_ARROW) || keyIsDown(32)) {
         console.log(this.grounded);
         if (this.grounded) {
-          this.speedY = -17;
+          this.speedY = -height*0.02125;
           this.posY += this.speedY;
   
           this.grounded = false;
@@ -141,7 +141,7 @@ class player {
         this.speedY = 0;
       }
       if (!this.grounded) {
-        this.speedY += 1;
+        this.speedY += height*0.00125;
       }
     }
   }
