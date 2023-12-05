@@ -48,28 +48,28 @@ function setup() {
   rectMode(CENTER);
   ellipseMode(CENTER);
   textAlign(CENTER);
-  cordArray = [new cord(width*0.214,height*0.213), new cord(width*0.785,height*0.213), new cord(width*0.407,height*0.125), new cord(width*0.593,height*0.125), 
-    new cord(width*0.5,height*0.125), new cord(width*0.393,height*0.525), new cord(width*0.608,height*0.525), 
-    new cord(width*0.5,height*0.525), new cord(width*0.035,height*0.438), new cord(width*0.785,height*0.438),
-    new cord(width*0.5,height*0.313), new cord(width*0.035,height*0.488), new cord(width*0.964,height*0.488), 
-    new cord(width*0.5,height*0.738), new cord(width*0.035,height*0.900), new cord(width*0.964,height*0.900), 
-    new cord(width*0.5,height*0.963), new cord(width*0.035,height*0.688), new cord(width*0.964,height*0.688)];
+  cordArray = [new cord(300,170), new cord(1100,170), new cord(570,100), new cord(830,100), 
+    new cord(700,100), new cord(550,420), new cord(850,420), 
+    new cord(700,420), new cord(300,350), new cord(1100,350),
+    new cord(700,250), new cord(50,390), new cord(1350,390), 
+    new cord(700,590), new cord(50,720), new cord(1350,720), 
+    new cord(700,770), new cord(50,550), new cord(1350,550)];
 
   player1 = new player();
-  block1 = new block(width*0.143, height*0.969, width*0.286, height*0.063);
-  block2 = new block(width*0.857, height*0.969, width*0.286, height*0.063);
-  block3 = new block(width*0.500, height*0.813, width*0.107, height*0.063);
-  block4 = new block(width*0.500, height*0.594, width*0.286, height*0.063);
-  block5 = new block(width*0.214, height*0.500, width*0.143, height*0.063);
-  block6 = new block(width*0.786, height*0.500, width*0.143, height*0.063);
-  block7 = new block(width*0.500, height*0.375, width*0.107, height*0.063);
-  block8 = new block(width*0.964, height*0.750, width*0.071, height*0.063);
-  block9 = new block(width*0.036, height*0.750, width*0.071, height*0.063);
-  block10 = new block(width*0.500, height*0.188, width*0.250, height*0.063);
-  block11 = new block(width*0.964, height*0.563, width*0.071, height*0.063);
-  block12 = new block(width*0.036, height*0.563, width*0.071, height*0.063);
-  block13 = new block(width*0.786, height*0.281, width*0.071, height*0.063);
-  block14 = new block(width*0.214, height*0.281, width*0.071, height*0.063);
+  block1 = new block(200, 775, 400, 50);
+  block2 = new block(1200, 775, 400, 50);
+  block3 = new block(700, 650, 150, 50);
+  block4 = new block(700, 475, 400, 50);
+  block5 = new block(300, 400, 200, 50);
+  block6 = new block(1100, 400, 200, 50);
+  block7 = new block(700, 300, 150, 50);
+  block8 = new block(1350, 600, 100, 50);
+  block9 = new block(50, 600, 100, 50);
+  block10 = new block(700, 150, 350, 50);
+  block11 = new block(1350, 450, 100, 50);
+  block12 = new block(50, 450, 100, 50);
+  block13 = new block(1100, 225, 100, 50);
+  block14 = new block(300, 225, 100, 50);
   coinCount = 1;
   rightOrder = true;
 
@@ -101,100 +101,104 @@ function draw() {
 
 function controlsDraw() {
   image(controlsMenuImg, 0, 0, width, height);
-  textSize(width*0.03);
+  textSize(40);
   stroke(0);
   strokeWeight(2);
-  if (mouseX < width*0.321 && mouseX > width*0.100 
-    && mouseY < height*0.825 && mouseY > height*0.781) {
+  if (mouseX < 450 && mouseX > 140 
+    && mouseY < 660 && mouseY > 625) {
       fill(252, 140, 3);
     }
     else {
       fill(255, 238, 127);
     }
-  text("back to menu", width*0.214, height*0.825);
+  text("back to menu", 300, 660);
 
 }
 
 function startMenu() {
   image(startScreenImg, 0, 0, width, height);
-  textSize(width*0.043);
+  //background(255);
+  textSize(60);
   
   stroke(0);
   strokeWeight(2);
-  if (mouseX < width*0.629 && mouseX > width*0.371
-    && mouseY < height*0.513 && mouseY > height*.438) {
+  if (mouseX < width/2 + 180 && mouseX > width/2 - 180 
+    && mouseY < height/2 + 10 && mouseY > height/2 - 50) {
       fill(252, 140, 3);
     }
     else {
       fill(255, 238, 127);
     }
   text("play game", width/2, height/2);
-  if (mouseX < width*0.597 && mouseX > width*0.404 
-    && mouseY < height*0.638 && mouseY > height*0.588) {
+  if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
+    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
       fill(252, 140, 3);
     }
     else {
       fill(255, 238, 127);
     }
-  textSize(width*0.03);
-  text("how to play", width*0.500, height*0.625);
+  textSize(40);
+  text("how to play", width/2, height/2 + 100);
 }
 
 function endDraw() {
   image(endScreenImg, 0, 0, width, height);
   //background(255);
-  textSize(width*0.032);
+  textSize(45);
   fill(255, 238, 127);
   stroke(0);
   strokeWeight(2);
-  text("Your Score is " + score + "!", width*0.500, height*0.500);
+  text("Your Score is " + score + "!", width/2, height/2);
 
-  if (mouseX < width*0.679 && mouseX > width*0.321
-    && mouseY < height*0.625 && mouseY > height*0.575) {
+  if (mouseX < width/2 + 250 && mouseX > width/2 - 250
+    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
       fill(252, 140, 3);
     }
     else {
       fill(255, 238, 127);
     }
-  text("back to start screen", width*0.500, height*0.625);
+  text("back to start screen", width/2, height/2 + 100);
 
-  if (mouseX < width*0.271 && mouseX > width*0.082
-    && mouseY < height*0.838 && mouseY > height*0.800) {
+  if (mouseX < 380 && mouseX > 115 
+    && mouseY < 670 && mouseY > 640) {
       fill(252, 140, 3);
     }
     else {
       fill(255, 238, 127);
     }
-  text("save score", width*0.179, height*0.838);
+  text("save score", 250, 670);
   
 }
 
 function mouseClicked() {
   if (gameState == "start screen") {
-    if (mouseX < width*0.629 && mouseX > width*0.371
-      && mouseY < height*0.513 && mouseY > height*.438) {
+    if (mouseX < width/2 + 70 && mouseX > width/2 - 70 
+    && mouseY < height/2 + 30 && mouseY > height/2 - 30) {
       gameState = "play game";
     }
-    if (mouseX < width*0.597 && mouseX > width*0.404 
-      && mouseY < height*0.638 && mouseY > height*0.588) {
+    if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
+    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
       gameState = "controls menu";
     }
   }
+  if (gameState == "play game") {
+    
+  }
   if (gameState == "end screen") {
-    if (mouseX < width*0.679 && mouseX > width*0.321
-      && mouseY < height*0.625 && mouseY > height*0.575) {
+    if (mouseX < width/2 + 250 && mouseX > width/2 - 250
+    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
       setup();
 
     }
-    if (mouseX < width*0.271 && mouseX > width*0.082
-      && mouseY < height*0.838 && mouseY > height*0.800) {
+    if (mouseX < 380 && mouseX > 115 
+      && mouseY < 670 && mouseY > 640) {
         saveCanvas("SpeedBaker");
     }
 
   }
   if (gameState == "controls menu") {
-    if (mouseX < width*0.321 && mouseX > width*0.100 
-      && mouseY < height*0.825 && mouseY > height*0.781) {
+    if (mouseX < 450 && mouseX > 140 
+      && mouseY < 660 && mouseY > 625) {
         gameState = "start screen";
       }
   }
@@ -258,6 +262,81 @@ function threeRandNums(bot, top) {
 
   return [num1, num2, num3];
 }
+
+class coin {
+  constructor(x, y, num) {
+    this.count = num;
+    this.xPos = x;
+    this.yPos = y;
+    this.width = 30;
+    this.height = 30;
+    this.collected = false;
+
+  }
+
+  coinCollect() {
+    if (this.overlap() != 0) {
+      if (this.overlap() == coinCount && rightOrder) {
+        //do nothing :)
+      }
+      else {
+        rightOrder = false
+      }
+      coinCount++;
+      console.log(coinCount);
+      if (coinCount == 4) {
+        if (rightOrder) {
+          score += 3
+          timer+=2;
+        }
+        else {
+          score += 1;
+          timer+=1;
+        }
+        coinCount = 1;
+        rightOrder = true;
+        coin1.collected = false;
+        coin2.collected = false;
+        coin3.collected = false;
+        let nums = threeRandNums(0, cordArray.length);
+        console.log(nums[0]);
+        console.log(nums[1]);
+        console.log(nums[2]);
+        coin1.xPos = cordArray[int(nums[0])].cordX;
+        coin1.yPos = cordArray[int(nums[0])].cordY;
+        coin2.xPos = cordArray[int(nums[1])].cordX;
+        coin2.yPos = cordArray[int(nums[1])].cordY;
+        coin3.xPos = cordArray[int(nums[2])].cordX;
+        coin3.yPos = cordArray[int(nums[2])].cordY;
+      }
+    }
+
+  }
+
+  overlap() {
+    if (this.xPos - this.width > player1.posX - player1.playerWidth/2 && this.xPos - this.width < player1.posX + player1.playerWidth/2 
+    || this.xPos + this.width > player1.posX - player1.playerWidth/2 && this.xPos + this.width < player1.posX + player1.playerWidth/2
+    || this.xPos > player1.posX - player1.playerWidth/2 && this.xPos < player1.posX + player1.playerWidth/2) {
+      if (this.yPos > player1.posY - player1.playerHeight && this.yPos < player1.posY + player1.playerHeight) {
+        console.log("Coin");
+        this.collected = true;
+        return this.count;
+      }
+    }
+    return 0;
+  }
+
+  drawCoin() {
+    if (!this.collected) {
+      fill(252, 211, 3);
+      ellipse(this.xPos, this.yPos, this.width, this.height);
+      textSize(20);
+      text(this.count, this.xPos, this.yPos + 7);
+      this.coinCollect();
+    }
+  }
+}
+
 class cord {
   constructor(x,y) {
     this.cordX = x;
