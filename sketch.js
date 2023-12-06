@@ -30,16 +30,19 @@ let gameState;
 let startScreenImg;
 let endScreenImg;
 let controlsMenuImg;
+let playBGImg;
 let font1;
+
 
 function setup() {
   startScreenImg = loadImage('Assets/Start Screen.png');
   endScreenImg = loadImage('Assets/End Screen.png');
   controlsMenuImg = loadImage('Assets/Controls Menu.png');
+  playBGImg = loadImage('Assets/PlayBG.png');
   font1 = loadFont('Text/Angkor-Regular.ttf');
   textFont(font1);
   score = 0;
-  timer = 30; //////////////////timer
+  timer = 40; //////////////////timer
   subTimer = 0;
   framesPerSecond = 60;
   gameState = "start screen";
@@ -172,8 +175,8 @@ function endDraw() {
 
 function mouseClicked() {
   if (gameState == "start screen") {
-    if (mouseX < width/2 + 70 && mouseX > width/2 - 70 
-    && mouseY < height/2 + 30 && mouseY > height/2 - 30) {
+    if (mouseX < width/2 + 180 && mouseX > width/2 - 180 
+    && mouseY < height/2 + 10 && mouseY > height/2 - 50) {
       gameState = "play game";
     }
     if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
@@ -205,7 +208,7 @@ function mouseClicked() {
 }
 
 function gameDraw() {
-  background(220);
+  image(playBGImg, 0, 0, width, height);
   //update player position and check platform collissions
   player1.move();
   //draw boxes
@@ -230,9 +233,9 @@ function gameDraw() {
   //Score and  Timer
   timerCount()
   textSize(30);
-  fill(0);
-  text("Score: " + score, 1300, 50);
-  text("Time Left: " + timer, 100, 50);
+  fill(255, 238, 127);
+  text("Score: " + score, 1250, 50);
+  text("Time Left: " + timer, 150, 50);
 }
 
 function timerCount() {
@@ -261,80 +264,6 @@ function threeRandNums(bot, top) {
   }
 
   return [num1, num2, num3];
-}
-
-class coin {
-  constructor(x, y, num) {
-    this.count = num;
-    this.xPos = x;
-    this.yPos = y;
-    this.width = 30;
-    this.height = 30;
-    this.collected = false;
-
-  }
-
-  coinCollect() {
-    if (this.overlap() != 0) {
-      if (this.overlap() == coinCount && rightOrder) {
-        //do nothing :)
-      }
-      else {
-        rightOrder = false
-      }
-      coinCount++;
-      console.log(coinCount);
-      if (coinCount == 4) {
-        if (rightOrder) {
-          score += 3
-          timer+=2;
-        }
-        else {
-          score += 1;
-          timer+=1;
-        }
-        coinCount = 1;
-        rightOrder = true;
-        coin1.collected = false;
-        coin2.collected = false;
-        coin3.collected = false;
-        let nums = threeRandNums(0, cordArray.length);
-        console.log(nums[0]);
-        console.log(nums[1]);
-        console.log(nums[2]);
-        coin1.xPos = cordArray[int(nums[0])].cordX;
-        coin1.yPos = cordArray[int(nums[0])].cordY;
-        coin2.xPos = cordArray[int(nums[1])].cordX;
-        coin2.yPos = cordArray[int(nums[1])].cordY;
-        coin3.xPos = cordArray[int(nums[2])].cordX;
-        coin3.yPos = cordArray[int(nums[2])].cordY;
-      }
-    }
-
-  }
-
-  overlap() {
-    if (this.xPos - this.width > player1.posX - player1.playerWidth/2 && this.xPos - this.width < player1.posX + player1.playerWidth/2 
-    || this.xPos + this.width > player1.posX - player1.playerWidth/2 && this.xPos + this.width < player1.posX + player1.playerWidth/2
-    || this.xPos > player1.posX - player1.playerWidth/2 && this.xPos < player1.posX + player1.playerWidth/2) {
-      if (this.yPos > player1.posY - player1.playerHeight && this.yPos < player1.posY + player1.playerHeight) {
-        console.log("Coin");
-        this.collected = true;
-        return this.count;
-      }
-    }
-    return 0;
-  }
-
-  drawCoin() {
-    if (!this.collected) {
-      fill(252, 211, 3);
-      ellipse(this.xPos, this.yPos, this.width, this.height);
-      textSize(20);
-      text(this.count, this.xPos, this.yPos + 7);
-      this.coinCollect();
-    }
-  }
 }
 
 class cord {
