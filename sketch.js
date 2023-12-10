@@ -1,6 +1,13 @@
+//declare variables used in document
+//player
 let player1;
+//canvas
+let canvas;
+//direction player if going
 let direction;
+//
 let jump;
+//all blocks
 let block1;
 let block2;
 let block3;
@@ -15,50 +22,76 @@ let block11;
 let block12;
 let block13;
 let block14;
+//fps
 let framesPerSecond;
-let canvas;
+//all positions for coins
 let cordArray;
+//coin variables
 let coin1;
-let coin2; 
+let coin2;
 let coin3;
+//how many coins have been collected
 let coinCount;
+//are the coins being collected in the right order
 let rightOrder;
+//score
 let score;
+//timer
 let timer;
+//sub timer to count each tick
 let subTimer;
+//what is the current game state
 let gameState;
+//start screen image
 let startScreenImg;
+//end screen image
 let endScreenImg;
+//controls menu image
 let controlsMenuImg;
+//background image while playing game
 let playBGImg;
+//font in game
 let font1;
 
-
+//plays before the start of the code
 function setup() {
+  //instantiate canvas
+  canvas = createCanvas(1400, 800);
+  //center canvas
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  canvas.position(x, y);
+  //load all images
   startScreenImg = loadImage('Assets/Start Screen.png');
   endScreenImg = loadImage('Assets/End Screen.png');
   controlsMenuImg = loadImage('Assets/Controls Menu.png');
   playBGImg = loadImage('Assets/PlayBG.png');
+  //load font
   font1 = loadFont('Text/Angkor-Regular.ttf');
   textFont(font1);
+  //instantiate the score, timer, subtimer, and fps
   score = 0;
   timer = 40; //////////////////timer
   subTimer = 0;
   framesPerSecond = 60;
+  //game starts on start screen game state
   gameState = "start screen";
+  //declare fps
   frameRate(framesPerSecond);
-  canvas = createCanvas(1400, 800);
+  //center all modes
   rectMode(CENTER);
   ellipseMode(CENTER);
   textAlign(CENTER);
-  cordArray = [new cord(300,170), new cord(1100,170), new cord(570,100), new cord(830,100), 
-    new cord(700,100), new cord(550,420), new cord(850,420), 
-    new cord(700,420), new cord(300,350), new cord(1100,350),
-    new cord(700,250), new cord(50,390), new cord(1350,390), 
-    new cord(700,590), new cord(50,720), new cord(1350,720), 
-    new cord(700,770), new cord(50,550), new cord(1350,550)];
-
+  //instantiate all coordinates in the array
+  cordArray = [new cord(300, 170), new cord(1100, 170), new cord(570, 100), new cord(830, 100),
+  new cord(700, 100), new cord(550, 420), new cord(850, 420),
+  new cord(700, 420), new cord(300, 350), new cord(1100, 350),
+  new cord(700, 250), new cord(50, 390), new cord(1350, 390),
+  new cord(700, 590), new cord(50, 720), new cord(1350, 720),
+  new cord(700, 770), new cord(50, 550), new cord(1350, 550)];
+  //instintiate player
   player1 = new player();
+  //instantiate all blocks
   block1 = new block(200, 775, 400, 50);
   block2 = new block(1200, 775, 400, 50);
   block3 = new block(700, 650, 150, 50);
@@ -73,10 +106,12 @@ function setup() {
   block12 = new block(50, 450, 100, 50);
   block13 = new block(1100, 225, 100, 50);
   block14 = new block(300, 225, 100, 50);
+  //coin thingys
   coinCount = 1;
   rightOrder = true;
 
-  let nums = threeRandNums(0, cordArray.length-1);
+  //put coins in places
+  let nums = threeRandNums(0, cordArray.length - 1);
   console.log(nums[0]);
   console.log(nums[1]);
   console.log(nums[2]);
@@ -85,8 +120,13 @@ function setup() {
   coin3 = new coin(cordArray[int(nums[2])].cordX, cordArray[int(nums[2])].cordY, 3);
 }
 
-////////draw
+//plays each frame of the code
 function draw() {
+  //center canvas
+  x = (windowWidth - width) / 2;
+  y = (windowHeight - height) / 2;
+  canvas.position(x, y);
+
   //function calls
   if (gameState == "start screen") {
     startMenu();
@@ -102,112 +142,137 @@ function draw() {
   }
 }
 
+//draw loop when the game state is controls menu
 function controlsDraw() {
+  //draw background image
   image(controlsMenuImg, 0, 0, width, height);
+  //text settings
   textSize(40);
   stroke(0);
   strokeWeight(2);
-  if (mouseX < 450 && mouseX > 140 
+  //change color is mouse is over the text
+  if (mouseX < 450 && mouseX > 140
     && mouseY < 660 && mouseY > 625) {
-      fill(252, 140, 3);
-    }
-    else {
-      fill(255, 238, 127);
-    }
+    fill(252, 140, 3);
+  }
+  else {
+    fill(255, 238, 127);
+  }
+  //real text
   text("back to menu", 300, 660);
 
 }
 
+//draw loop when the game state is start menu
 function startMenu() {
+  //draw background image
   image(startScreenImg, 0, 0, width, height);
-  //background(255);
+  //text settings
   textSize(60);
-  
   stroke(0);
   strokeWeight(2);
-  if (mouseX < width/2 + 180 && mouseX > width/2 - 180 
-    && mouseY < height/2 + 10 && mouseY > height/2 - 50) {
-      fill(252, 140, 3);
-    }
-    else {
-      fill(255, 238, 127);
-    }
-  text("play game", width/2, height/2);
-  if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
-    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
-      fill(252, 140, 3);
-    }
-    else {
-      fill(255, 238, 127);
-    }
+  //fill if cursor over text
+  if (mouseX < width / 2 + 180 && mouseX > width / 2 - 180
+    && mouseY < height / 2 + 10 && mouseY > height / 2 - 50) {
+    fill(252, 140, 3);
+  }
+  else {
+    fill(255, 238, 127);
+  }
+  //draw text
+  text("play game", width / 2, height / 2);
+  //fill if over text
+  if (mouseX < width / 2 + 135 && mouseX > width / 2 - 135
+    && mouseY < height / 2 + 110 && mouseY > height / 2 + 70) {
+    fill(252, 140, 3);
+  }
+  else {
+    fill(255, 238, 127);
+  }
+  //new text size
   textSize(40);
-  text("how to play", width/2, height/2 + 100);
+  //draw text
+  text("how to play", width / 2, height / 2 + 100);
 }
 
+//draw loop when the game state is end screen
 function endDraw() {
+  //draw background image
   image(endScreenImg, 0, 0, width, height);
-  //background(255);
+  //text settings
   textSize(45);
   fill(255, 238, 127);
   stroke(0);
   strokeWeight(2);
-  text("Your Score is " + score + "!", width/2, height/2);
+  //draw score
+  text("Your Score is " + score + "!", width / 2, height / 2);
+  //text change color is curor is over it
+  if (mouseX < width / 2 + 250 && mouseX > width / 2 - 250
+    && mouseY < height / 2 + 100 && mouseY > height / 2 + 60) {
+    fill(252, 140, 3);
+  }
+  else {
+    fill(255, 238, 127);
+  }
+  //draw text
+  text("back to start screen", width / 2, height / 2 + 100);
 
-  if (mouseX < width/2 + 250 && mouseX > width/2 - 250
-    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
-      fill(252, 140, 3);
-    }
-    else {
-      fill(255, 238, 127);
-    }
-  text("back to start screen", width/2, height/2 + 100);
-
-  if (mouseX < 380 && mouseX > 115 
+  //text change color if mouse is over it
+  if (mouseX < 380 && mouseX > 115
     && mouseY < 670 && mouseY > 640) {
-      fill(252, 140, 3);
-    }
-    else {
-      fill(255, 238, 127);
-    }
+    fill(252, 140, 3);
+  }
+  else {
+    fill(255, 238, 127);
+  }
+  //draw text
   text("save score", 250, 670);
-  
+
 }
 
+//calls each time the mouse is pressed
 function mouseClicked() {
+  //activates if game state is start screen
   if (gameState == "start screen") {
-    if (mouseX < width/2 + 180 && mouseX > width/2 - 180 
-    && mouseY < height/2 + 10 && mouseY > height/2 - 50) {
+    //if mouse is over play game switch game state to play game
+    if (mouseX < width / 2 + 180 && mouseX > width / 2 - 180
+      && mouseY < height / 2 + 10 && mouseY > height / 2 - 50) {
       gameState = "play game";
     }
-    if (mouseX < width/2 + 135 && mouseX > width/2 - 135 
-    && mouseY < height/2 + 110 && mouseY > height/2 + 70) {
+    //if mouse is over controls menu switch gme state to controls menu
+    if (mouseX < width / 2 + 135 && mouseX > width / 2 - 135
+      && mouseY < height / 2 + 110 && mouseY > height / 2 + 70) {
       gameState = "controls menu";
     }
   }
-  if (gameState == "play game") {
-    
-  }
+  //activates if game state is end screen
   if (gameState == "end screen") {
-    if (mouseX < width/2 + 250 && mouseX > width/2 - 250
-    && mouseY < height/2 + 100 && mouseY > height/2 + 60) {
+    //if mouse is over back to menu restart the code
+    if (mouseX < width / 2 + 250 && mouseX > width / 2 - 250
+      && mouseY < height / 2 + 100 && mouseY > height / 2 + 60) {
       setup();
 
     }
-    if (mouseX < 380 && mouseX > 115 
+    //if mouse is over save score save the canvas (file name SpeedBaker)
+    if (mouseX < 380 && mouseX > 115
       && mouseY < 670 && mouseY > 640) {
-        saveCanvas("SpeedBaker");
+      saveCanvas("SpeedBaker");
     }
 
   }
+  //activates if game state is controls menu
   if (gameState == "controls menu") {
-    if (mouseX < 450 && mouseX > 140 
+    //if mouse is over back to menu set game state to start screen
+    if (mouseX < 450 && mouseX > 140
       && mouseY < 660 && mouseY > 625) {
-        gameState = "start screen";
-      }
+      gameState = "start screen";
+    }
   }
 }
 
+//draw loop for when 
 function gameDraw() {
+  //draw background image
   image(playBGImg, 0, 0, width, height);
   //update player position and check platform collissions
   player1.move();
@@ -230,7 +295,7 @@ function gameDraw() {
   coin1.drawCoin();
   coin2.drawCoin();
   coin3.drawCoin();
-  //Score and  Timer
+  //increment timer
   timerCount()
   textSize(30);
   fill(255, 238, 127);
@@ -238,36 +303,45 @@ function gameDraw() {
   text("Time Left: " + timer, 150, 50);
 }
 
+//imcrement timer
 function timerCount() {
+  //each frame subtimer is increased by one
   subTimer++;
+  //if subtimer is 60, reset subtimer to 0 and subtract one to timer because framerate is 60 fps
   if (subTimer == 60) {
     subTimer = 0;
     timer--;
   }
-
+  //if the timer is at 0, stop the game
   if (timer == 0) {
     gameState = "end screen";
   }
 }
 
+//returns three different integers that are not the same ranging from the first parameter to the second parameter
 function threeRandNums(bot, top) {
+  //3 random ints ranging from bot to top
   let num1 = int(random(top) + bot);
   let num2 = int(random(top) + bot);
   let num3 = int(random(top) + bot);
 
+  //while num1 = num2 re-randomize num2
   while (num2 == num1) {
     num2 = random(top) + bot;
   }
 
+  //while num1 = num3 or num2 = num3 re-randomize num 3
   while (num3 == num2 || num3 == num1) {
     num3 = random(top) + bot;
   }
 
+  //return three different integers that are not the same ranging from the first parameter to the second parameter
   return [num1, num2, num3];
 }
 
+//cord class for coins
 class cord {
-  constructor(x,y) {
+  constructor(x, y) {
     this.cordX = x;
     this.cordY = y;
   }
